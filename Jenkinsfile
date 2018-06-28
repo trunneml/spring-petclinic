@@ -10,6 +10,7 @@ pipeline {
       steps {
         sh 'echo "Hello Welcome To The Cloud"'
         sh 'mvn --version'
+        sh 'mvn install'
       }
     }
   }
