@@ -15,8 +15,4 @@ pipeline {
       }
     }
   }
-  environment {
-    DOCKER_TLS_VERIFY = '0'
-    DOCKER_HOST = 'unix:///var/run/docker.sock'
-  }
 }
