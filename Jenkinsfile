@@ -8,10 +8,30 @@ pipeline {
   }
   stages {
     stage('build') {
-      steps {
-        sh 'echo "Hello Welcome To The Cloud"'
-        sh 'mvn --version'
-        sh 'mvn install'
+      parallel {
+        stage('build') {
+          steps {
+            sh 'echo "Hello Welcome To The Cloud"'
+            sh 'mvn --version'
+            sh 'mvn install'
+          }
+        }
+        stage('test 1') {
+          steps {
+            sh 'mvn test'
+          }
+        }
+        stage('TestResults') {
+          steps {
+            sh 'mvn test'
+            junit(testResults: '**/target/*.xml', allowEmptyResults: true)
+          }
+        }
+        stage('build 2') {
+          steps {
+            sh 'mvn install'
+          }
+        }
       }
     }
   }
