@@ -8,30 +8,30 @@ pipeline {
   }
   stages {
     stage('build') {
-      parallel {
-        stage('build') {
-          steps {
-            sh 'echo "Hello Welcome To The Cloud"'
-            sh 'mvn --version'
-            sh 'mvn install'
-          }
+      agent {
+        docker {
+          image 'maven:3.5.4-jdk-8-alpine'
+          args '-v /root/.m2:/root/.m2'
         }
-        stage('test 1') {
-          steps {
-            sh 'mvn test'
-          }
+
+      }
+      steps {
+        sh 'echo "Hello Welcome To The Cloud"'
+        sh 'mvn --version'
+        sh 'mvn install'
+      }
+    }
+    stage('test') {
+      agent {
+        docker {
+          args '-v /root/.m2:/root/.m2'
+          image 'maven:3.5.4-jdk-8-alpine'
         }
-        stage('TestResults') {
-          steps {
-            sh 'mvn test'
-            junit(testResults: '**/target/*.xml', allowEmptyResults: true)
-          }
-        }
-        stage('build 2') {
-          steps {
-            sh 'mvn install'
-          }
-        }
+
+      }
+      steps {
+        sh 'mvn test'
+        junit(testResults: '**/target/*.xml', allowEmptyResults: true)
       }
     }
   }
