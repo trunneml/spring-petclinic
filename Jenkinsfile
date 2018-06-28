@@ -35,8 +35,4 @@ pipeline {
       }
     }
   }
-  environment {
-    DOCKER_HOST = 'tcp://192.168.56.100:2376'
-    DOCKER_TLS_VERIFY = '0'
-  }
 }
