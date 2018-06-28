@@ -8,13 +8,6 @@ pipeline {
   }
   stages {
     stage('build') {
-      agent {
-        docker {
-          image 'maven:3.5.4-jdk-8-alpine'
-          args '-v /root/.m2:/root/.m2'
-        }
-
-      }
       steps {
         sh 'echo "Hello Welcome To The Cloud"'
         sh 'mvn --version'
@@ -22,13 +15,6 @@ pipeline {
       }
     }
     stage('test') {
-      agent {
-        docker {
-          args '-v /root/.m2:/root/.m2'
-          image 'maven:3.5.4-jdk-8-alpine'
-        }
-
-      }
       steps {
         sh 'mvn test'
         junit(testResults: '**/target/*.xml', allowEmptyResults: true)
